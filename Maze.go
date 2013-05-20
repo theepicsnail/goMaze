@@ -1,54 +1,81 @@
 package main
 import "bytes"
 
+type RuneGetter interface {
+    RuneAt(int, int) rune
+    GetData() [][]Cell
+}
+
 type Maze struct { 
     rows, cols int
     data [][] Cell
+
 }
-
-func (maze *Maze) String() string {
+func CellAt(maze RuneGetter, pos Position) Cell {
+    return maze.GetData()[pos.row][pos.col] 
+}
+func String(maze RuneGetter) string {
     var buffer bytes.Buffer
-
-    for row := range maze.data {
-        for col := range maze.data[row] {
-            buffer.WriteRune(maze.runeAt(row, col))
+    var data = maze.GetData()
+    for row := range data {
+        for col := range data[row] {
+            buffer.WriteRune(maze.RuneAt(row, col))
         }
         buffer.WriteByte('\n')
     }
     return buffer.String()
 }
 
-func (maze *Maze) runeAt(row, col int) rune {
+func (maze Maze) String() string { 
+    return String(maze); 
+}
+
+func (maze Maze) RuneAt(row, col int) rune {
     return maze.data[row][col].rune
+}
+
+func (maze Maze) GetData() [][]Cell { 
+    return maze.data 
 }
 
 func (maze *Maze) getNeighbors(pos Position) []Position {
     var out []Position
-    if pos.row-2 > 0 && maze.runeAt(pos.row-2,pos.col) == '#'{
+    if pos.row-2 > 0 && maze.RuneAt(pos.row-2,pos.col) == '#'{
         out = append(out, Position{pos.row-2, pos.col})
     }
-    if pos.row+2 < maze.rows && maze.runeAt(pos.row+2,pos.col) == '#'{
+    if pos.row+2 < maze.rows && maze.RuneAt(pos.row+2,pos.col) == '#'{
         out = append(out, Position{pos.row+2, pos.col})
     }
-    if pos.col-2 > 0 && maze.runeAt(pos.row,pos.col-2) == '#'{
+    if pos.col-2 > 0 && maze.RuneAt(pos.row,pos.col-2) == '#'{
         out = append(out, Position{pos.row, pos.col-2})
     }
-    if pos.col+2 < maze.cols && maze.runeAt(pos.row,pos.col+2) == '#'{
+    if pos.col+2 < maze.cols && maze.RuneAt(pos.row,pos.col+2) == '#'{
         out = append(out, Position{pos.row, pos.col+2})
     }
     return out
 }
 
 func (maze *Maze) connect(p1, p2 Position) {
-   maze.data[p1.row][p1.col].rune = ' '
-   maze.data[(p1.row+p2.row)>>1][(p1.col+p2.col)>>1].rune = ' '
-   maze.data[p2.row][p2.col].rune = ' ' 
+    cell :=  maze.data[p1.row][p1.col]
+    cell.rune = ' '
+    cell.enterable = true
+    maze.data[p1.row][p1.col]=cell
+
+    cell = maze.data[(p1.row+p2.row)>>1][(p1.col+p2.col)>>1]
+    cell.rune = ' '
+    cell.enterable = true
+    maze.data[(p1.row+p2.row)>>1][(p1.col+p2.col)>>1] = cell
+
+    cell = maze.data[p2.row][p2.col]
+    cell.rune = ' ' 
+    cell.enterable = true
+    maze.data[p2.row][p2.col] = cell
 }
 
-func NewMaze(rows, cols int) *Maze {
-    m := new(Maze)
+func NewMaze(rows, cols int) Maze {
+    m := Maze{}
     cols = cols * 2 + 1 //Resize for adding in walls
-    rows= rows* 2 + 1 //
+    rows = rows * 2 + 1 //
     m.rows = rows
     m.cols = cols
     m.data = make([][]Cell, rows)
