@@ -40,16 +40,16 @@ func (maze Maze) GetData() [][]Cell {
 
 func (maze *Maze) getNeighbors(pos Position) []Position {
     var out []Position
-    if pos.row-2 > 0 && maze.RuneAt(pos.row-2,pos.col) == '#'{
+    if pos.row-2 > 0 && maze.RuneAt(pos.row-2,pos.col) == WALL{
         out = append(out, Position{pos.row-2, pos.col})
     }
-    if pos.row+2 < maze.rows && maze.RuneAt(pos.row+2,pos.col) == '#'{
+    if pos.row+2 < maze.rows && maze.RuneAt(pos.row+2,pos.col) == WALL{
         out = append(out, Position{pos.row+2, pos.col})
     }
-    if pos.col-2 > 0 && maze.RuneAt(pos.row,pos.col-2) == '#'{
+    if pos.col-2 > 0 && maze.RuneAt(pos.row,pos.col-2) == WALL{
         out = append(out, Position{pos.row, pos.col-2})
     }
-    if pos.col+2 < maze.cols && maze.RuneAt(pos.row,pos.col+2) == '#'{
+    if pos.col+2 < maze.cols && maze.RuneAt(pos.row,pos.col+2) == WALL{
         out = append(out, Position{pos.row, pos.col+2})
     }
     return out
@@ -57,17 +57,17 @@ func (maze *Maze) getNeighbors(pos Position) []Position {
 
 func (maze *Maze) connect(p1, p2 Position) {
     cell :=  maze.data[p1.row][p1.col]
-    cell.rune = ' '
+    cell.rune = OPEN
     cell.enterable = true
     maze.data[p1.row][p1.col]=cell
 
     cell = maze.data[(p1.row+p2.row)>>1][(p1.col+p2.col)>>1]
-    cell.rune = ' '
+    cell.rune = OPEN
     cell.enterable = true
     maze.data[(p1.row+p2.row)>>1][(p1.col+p2.col)>>1] = cell
 
     cell = maze.data[p2.row][p2.col]
-    cell.rune = ' ' 
+    cell.rune = OPEN
     cell.enterable = true
     maze.data[p2.row][p2.col] = cell
 }
@@ -82,7 +82,7 @@ func NewMaze(rows, cols int) Maze {
     for row:= range m.data {
         m.data[row] = make([]Cell, cols)
         for col := range m.data[row] {
-            m.data[row][col].rune = '#'
+            m.data[row][col].rune = WALL
         }
     }
     return m

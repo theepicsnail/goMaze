@@ -10,7 +10,5 @@ func (cell *Cell) getRune() rune {
     if cell.seen {
         return cell.rune
     }
-    return rune('#')
+    return WALL
 }
-
-

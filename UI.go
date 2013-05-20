@@ -3,7 +3,7 @@ const (
     WALL = '#'
     PLAYER = '☺'
     PLAYER_BUMP = '☻'
-    //FOG = '?'
+    FOG = '?'
     OPEN = ' '
-    FOG ='░'
+    //FOG ='░'
 )

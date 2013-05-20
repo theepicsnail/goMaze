@@ -14,13 +14,13 @@ func (maze PlayerMaze) RuneAt(row, col int) rune {
     if row == maze.player.row {
         if  col == maze.player.col {
             if maze.bump {
-                return '☻'
+                return PLAYER_BUMP
             }
-            return '☺'
+            return PLAYER
         }
     }
     if !maze.Maze.data[row][col].seen {
-        return '?'
+        return FOG
     }
     return maze.Maze.RuneAt(row,col)
 }
