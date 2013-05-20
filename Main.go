@@ -42,7 +42,9 @@ func main() {
     pMaze.MoveTo(Position{1,1})
 
     for true {
+        fmt.Println(pMaze)
         c,_ := getCh()
+        fmt.Println()
         valid := false
         switch c {
             case 'w', 65:
@@ -58,11 +60,11 @@ func main() {
         }
         if !valid {
             pMaze.bump = true
+            fmt.Println()
             fmt.Println(pMaze)
             time.Sleep(1e8)
             pMaze.bump = false 
         }
-        fmt.Println(pMaze)
     }
 }
 // ☺
