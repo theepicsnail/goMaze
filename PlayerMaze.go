@@ -19,6 +19,9 @@ func (maze PlayerMaze) RuneAt(row, col int) rune {
             return '☺'
         }
     }
+    if !maze.Maze.data[row][col].seen {
+        return '?'
+    }
     return maze.Maze.RuneAt(row,col)
 }
 
