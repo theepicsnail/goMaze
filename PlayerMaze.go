@@ -32,6 +32,10 @@ func (maze *PlayerMaze) MoveTo (p Position) bool {
         maze.data[p.row-1][p.col].seen = true
         maze.data[p.row][p.col+1].seen = true
         maze.data[p.row][p.col-1].seen = true
+        maze.data[p.row+1][p.col+1].seen = true
+        maze.data[p.row-1][p.col+1].seen = true
+        maze.data[p.row+1][p.col-1].seen = true
+        maze.data[p.row-1][p.col-1].seen = true
         return true
     } 
     return false
