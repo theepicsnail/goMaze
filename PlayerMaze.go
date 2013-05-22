@@ -29,19 +29,28 @@ func (maze PlayerMaze) RuneAt(pos Position) rune {
 
 func (maze *PlayerMaze) MoveTo (p Position) bool {
     if maze.data[p.row][p.col].enterable {
+        maze.setSeen(false)
         maze.player = p
-        maze.data[p.row+1][p.col].seen = true
-        maze.data[p.row-1][p.col].seen = true
-        maze.data[p.row][p.col+1].seen = true
-        maze.data[p.row][p.col-1].seen = true
-        maze.data[p.row+1][p.col+1].seen = true
-        maze.data[p.row-1][p.col+1].seen = true
-        maze.data[p.row+1][p.col-1].seen = true
-        maze.data[p.row-1][p.col-1].seen = true
+        maze.setSeen(true)
         return true
-    } 
+    }
     return false
 }
+func (maze *PlayerMaze) setSeen (v bool) {
+    p := maze.player
+    offsets := []int{-3, -2, -1, 0, 1, 2, 3}
+    for _,dr := range(offsets){
+        for _,dc := range(offsets){
+            r := p.row+dr
+            c := p.col+dc
+            if r < 0 || c < 0 || r >= maze.rows || c>= maze.cols {
+                continue
+            }
+        maze.data[p.row+dr][p.col+dc].seen = v
+        }
+    } 
+}
+
 func (maze *PlayerMaze) MoveRight () bool {
     return maze.MoveTo(maze.player.Right())
 }
