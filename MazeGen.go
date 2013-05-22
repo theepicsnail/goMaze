@@ -1,4 +1,7 @@
 package main
+type MazeGenerator interface {
+    Generate(*Maze)
+}
 
 type Maze struct {
     rows, cols int
@@ -63,7 +66,7 @@ func (maze *Maze) connect(p1, p2 Position) {
     maze.data[p2.row][p2.col] = cell
 }
 
-func Generate(rows, cols int) Maze {
+func Generate(rows, cols int, gen MazeGenerator) Maze {
     //Make our maze data structure
     m := Maze{}
     cols = cols * 2 + 1 //Resize for adding in walls
@@ -77,11 +80,17 @@ func Generate(rows, cols int) Maze {
             m.data[row][col].rune = WALL
         }
     }
+    gen.Generate(&m)
+    return m
+}
 
+type SpanningTreeGenerator struct {}
+
+func (gen *SpanningTreeGenerator) Generate(m *Maze) {
     //Dig out the maze
     var posList = []Position{}
-    posList = append(posList, Position{1,1})
     var pos Position
+    posList = append(posList, Position{1,1})
     for len(posList)!= 0 {
         posList, pos = popRandom(posList)
 
@@ -94,8 +103,5 @@ func Generate(rows, cols int) Maze {
             posList = append(posList, pos, neighbor)
         }
     }
-
-    return m
 }
-
 

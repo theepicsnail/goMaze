@@ -21,7 +21,8 @@ func main() {
     var rows = 15
     var cols = 30
     fmt.Println("Generate.")
-    maze := Generate(rows,cols)
+    
+    maze := Generate(rows,cols, new(SpanningTreeGenerator))
     fmt.Println(ToString(&maze))
 
     pMaze := PlayerMaze{maze, Position{3,3}, false}
