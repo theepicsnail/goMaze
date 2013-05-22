@@ -20,29 +20,10 @@ func main() {
     rand.Seed( time.Now().UTC().UnixNano())
     var rows = 15
     var cols = 30
+    fmt.Println("Generate.")
+    maze := Generate(rows,cols)
+    fmt.Println(ToString(&maze))
 
-    maze := NewMaze(rows,cols)
-    fmt.Println(maze)
-    var posList []Position
-    posList = append(posList, Position{1,1})
-    var item Position
-    fmt.Println("Generating maze")
-    var totaledges = rows*cols-1
-    var edges = 0
-    for len(posList)!=0 {
-        //pop a random item from the list 
-        posList, item = popRandom(posList)
-        neighbors := maze.getNeighbors(item)
-        if len(neighbors) > 0 {
-            edges ++
-            fmt.Println(int(edges*100/totaledges))
-            _, neighbor := popRandom(neighbors)
-            posList = append(posList, item, neighbor)
-            maze.connect(item, neighbor)
-        }
-        
-    }
-    fmt.Println()
     pMaze := PlayerMaze{maze, Position{3,3}, false}
     pMaze.MoveTo(Position{1,1})
 

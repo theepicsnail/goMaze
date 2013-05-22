@@ -7,10 +7,12 @@ type PlayerMaze struct {
 }
 
 func (maze PlayerMaze) String() string {
-    return String(maze)
+    return ToString(&maze)
 }
 
-func (maze PlayerMaze) RuneAt(row, col int) rune {
+func (maze PlayerMaze) RuneAt(pos Position) rune {
+    row := pos.row
+    col := pos.col
     if row == maze.player.row {
         if  col == maze.player.col {
             if maze.bump {
@@ -22,7 +24,7 @@ func (maze PlayerMaze) RuneAt(row, col int) rune {
     if !maze.Maze.data[row][col].seen {
         return FOG
     }
-    return maze.Maze.RuneAt(row,col)
+    return maze.Maze.RuneAt(pos)
 }
 
 func (maze *PlayerMaze) MoveTo (p Position) bool {

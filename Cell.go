@@ -6,7 +6,7 @@ type Cell struct {
     enterable bool
 }
 
-func (cell *Cell) getRune() rune {
+func (cell *Cell) GetRune() rune {
     if cell.seen {
         return cell.rune
     }

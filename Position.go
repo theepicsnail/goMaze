@@ -4,6 +4,22 @@ type Position struct {
     row, col int
 }
 
+func (p *Position) MoveLeft() {
+    p.col --
+}
+
+func (p *Position) MoveRight() {
+    p.col ++
+}
+
+func (p *Position) MoveUp() {
+    p.row --
+}
+
+func (p *Position) MoveDown() {
+    p.row ++
+}
+
 func (p Position) Left() Position {
     return Position{p.row, p.col-1}
 }
