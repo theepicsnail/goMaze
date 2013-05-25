@@ -1,28 +1,16 @@
 package main
 import "fmt"
-import "math/rand"
 import "time"
 
-
-
-func popRandom(list []Position) ([]Position, Position) {
-    length := int32(len(list))
-    idx := rand.Int31n(length)
-
-    item := list[idx]
-
-    list[idx] = list[length-1]
-    list = list[0:length-1]
-    return list, item
-}
-
 func main() {
-    rand.Seed( time.Now().UTC().UnixNano())
     var rows = 15
     var cols = 30
     fmt.Println("Generate.")
     
-    maze := Generate(rows,cols, new(SpanningTreeGenerator))
+    //maze := Generate(rows,cols, new(SpanningTreeGenerator))
+    //maze := Generate(rows,cols, new(DepthFirstGenerator))
+    maze := Generate(rows,cols, new(RDivGenerator))  
+
     fmt.Println(ToString(&maze))
 
     pMaze := PlayerMaze{maze, Position{3,3}, false}
