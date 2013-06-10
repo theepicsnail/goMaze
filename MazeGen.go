@@ -23,7 +23,7 @@ type Maze struct {
 
 //Implement the MazeI interface
 func (m *Maze) RuneAt(p Position) rune {
-    
+
     return m.data[p.row][p.col].GetRune()
 }
 
@@ -47,9 +47,9 @@ func (m Maze) getNeighbors(pos Position) []Position {
     possible[2] = Position{pos.row, pos.col - 2}
     possible[3] = Position{pos.row, pos.col + 2}
 
-    
+
     for _,p := range(possible) {
-        
+
         if p.row < 0 || p.col < 0 || p.row >= m.rows || p.col >= m.cols {
             continue
         }
@@ -170,7 +170,7 @@ func (gen *RDivGenerator) divideMaze(m *Maze, topLeft, botRight Position) {
         m.data[splitRow][col].rune = WALL
         m.data[splitRow][col].enterable = false
     }
-    
+
     var solidWall = rand.Intn(4)
     for wall:=0 ; wall < 4; wall ++ {
         if wall == solidWall {
@@ -195,21 +195,21 @@ func (gen *RDivGenerator) divideMaze(m *Maze, topLeft, botRight Position) {
                 holeRow = splitRow
                 holeCol = rand.Intn((botRight.col-splitCol)/2)*2+1 + splitCol
             break
-             
+
         }
         m.data[holeRow][holeCol].enterable = true
         m.data[holeRow][holeCol].rune = OPEN
 
     }
 
-    gen.divideMaze(m, topLeft, Position{splitRow , splitCol}) 
-    gen.divideMaze(m, Position{splitRow , splitCol}, botRight) 
-    gen.divideMaze(m, Position{topLeft.row, splitCol}, Position{splitRow , botRight.col}) 
-    gen.divideMaze(m, Position{splitRow, topLeft.col}, Position{botRight.row , splitCol}) 
+    gen.divideMaze(m, topLeft, Position{splitRow , splitCol})
+    gen.divideMaze(m, Position{splitRow , splitCol}, botRight)
+    gen.divideMaze(m, Position{topLeft.row, splitCol}, Position{splitRow , botRight.col})
+    gen.divideMaze(m, Position{splitRow, topLeft.col}, Position{botRight.row , splitCol})
     //..A........
     //...........
     //....#.#....   Generate a point in the # area
-    //...........  
+    //...........
     //....#.#....
     //...........
     //....#.#....
