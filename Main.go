@@ -6,10 +6,10 @@ func main() {
     var rows = 15
     var cols = 30
     fmt.Println("Generate.")
-    
-    //maze := Generate(rows,cols, new(SpanningTreeGenerator))
-    //maze := Generate(rows,cols, new(DepthFirstGenerator))
-    maze := Generate(rows,cols, new(RDivGenerator))  
+
+    //maze := Generate(rows,cols, SpanningTreeGenerator)
+    //maze := Generate(rows,cols, DepthFirstGenerator)
+    maze := Generate(rows,cols, RDivGenerator)
 
     fmt.Println(ToString(&maze))
 
@@ -38,7 +38,7 @@ func main() {
             fmt.Println()
             fmt.Println(pMaze)
             time.Sleep(1e8)
-            pMaze.bump = false 
+            pMaze.bump = false
         }
     }
 }
